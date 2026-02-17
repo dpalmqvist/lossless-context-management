@@ -62,6 +62,7 @@ uv run lcm hook init
 
 ## Testing
 
+- 75 tests (65 unit + 10 E2E), all passing
 - Tests use `pytest-asyncio` with `asyncio_mode = "auto"`
 - Each test gets a fresh SQLite database via `tmp_path` fixture
 - LLM calls are mocked in compaction/operator tests
