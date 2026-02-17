@@ -25,7 +25,7 @@ async def _get_db() -> aiosqlite.Connection:
 
 mcp = FastMCP(
     "LCM — Lossless Context Management",
-    description=(
+    instructions=(
         "Provides lossless memory retrieval, context preservation, "
         "and parallel data processing for Claude Code."
     ),
