@@ -6,8 +6,14 @@ import asyncio
 import json
 import os
 import sys
+from pathlib import Path
+
+from dotenv import load_dotenv
 
 from lcm.store.database import get_db
+
+# Load .env from the project root (next to pyproject.toml)
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 
 def main() -> None:

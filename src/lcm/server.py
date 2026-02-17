@@ -5,9 +5,14 @@ from __future__ import annotations
 import json
 import os
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 import aiosqlite
+from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
+
+# Load .env from the project root (next to pyproject.toml)
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 from lcm.store.database import get_db
 
