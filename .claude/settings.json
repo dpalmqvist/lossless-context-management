@@ -7,17 +7,7 @@
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/hooks/session_start.sh",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "matcher": "compact",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '{\"type\":\"compact\"}' | \"$CLAUDE_PROJECT_DIR\"/hooks/session_start.sh",
-            "timeout": 30
+            "timeout": 15
           }
         ]
       }

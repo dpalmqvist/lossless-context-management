@@ -9,5 +9,5 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
 export CLAUDE_SESSION_ID="${CLAUDE_SESSION_ID:-default}"
 
-# Run capture asynchronously
-uv --directory "$PROJECT_DIR" run lcm hook capture &
+# Run capture (hook is already async in settings.json)
+uv --directory "$PROJECT_DIR" run lcm hook capture
