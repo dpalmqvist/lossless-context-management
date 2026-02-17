@@ -87,7 +87,7 @@ class TestCapture:
             + json.dumps({"type": "message", "role": "assistant", "content": "Reply"}) + "\n"
         )
 
-        result = await capture_new_messages(db, "capture_basic", str(transcript))
+        result = await capture_new_messages(db, "capture_basic", str(transcript), state_dir=tmp_path)
         assert result["captured"] == 2
 
         count = await count_messages(db, "capture_basic")
@@ -99,14 +99,14 @@ class TestCapture:
             json.dumps({"type": "message", "role": "user", "content": "First"}) + "\n"
         )
 
-        result1 = await capture_new_messages(db, "capture_incr", str(transcript))
+        result1 = await capture_new_messages(db, "capture_incr", str(transcript), state_dir=tmp_path)
         assert result1["captured"] == 1
 
         # Append more lines
         with open(transcript, "a") as f:
             f.write(json.dumps({"type": "message", "role": "user", "content": "Second"}) + "\n")
 
-        result2 = await capture_new_messages(db, "capture_incr", str(transcript))
+        result2 = await capture_new_messages(db, "capture_incr", str(transcript), state_dir=tmp_path)
         assert result2["captured"] == 1
 
         count = await count_messages(db, "capture_incr")

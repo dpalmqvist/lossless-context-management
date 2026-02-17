@@ -11,17 +11,17 @@ import aiosqlite
 from lcm.store.messages import insert_message
 
 # State file tracks last-processed position per session
-STATE_DIR = Path.home() / ".lcm" / "state"
+DEFAULT_STATE_DIR = Path.home() / ".lcm" / "state"
 
 
-def _state_file(session_id: str) -> Path:
-    STATE_DIR.mkdir(parents=True, exist_ok=True)
-    return STATE_DIR / f"{session_id}.pos"
+def _state_file(session_id: str, state_dir: Path = DEFAULT_STATE_DIR) -> Path:
+    state_dir.mkdir(parents=True, exist_ok=True)
+    return state_dir / f"{session_id}.pos"
 
 
-def _get_last_position(session_id: str) -> int:
+def _get_last_position(session_id: str, state_dir: Path = DEFAULT_STATE_DIR) -> int:
     """Get the last-processed line number for a session."""
-    sf = _state_file(session_id)
+    sf = _state_file(session_id, state_dir)
     if sf.exists():
         try:
             return int(sf.read_text().strip())
@@ -30,9 +30,9 @@ def _get_last_position(session_id: str) -> int:
     return 0
 
 
-def _set_last_position(session_id: str, position: int) -> None:
+def _set_last_position(session_id: str, position: int, state_dir: Path = DEFAULT_STATE_DIR) -> None:
     """Store the last-processed line number."""
-    sf = _state_file(session_id)
+    sf = _state_file(session_id, state_dir)
     sf.write_text(str(position))
 
 
@@ -55,6 +55,7 @@ async def capture_new_messages(
     db: aiosqlite.Connection,
     session_id: str,
     transcript_path: str | None = None,
+    state_dir: Path = DEFAULT_STATE_DIR,
 ) -> dict:
     """Read new messages from Claude Code transcript and persist them.
 
@@ -68,7 +69,7 @@ async def capture_new_messages(
     if not path or not path.exists():
         return {"captured": 0, "error": "Transcript not found"}
 
-    last_pos = _get_last_position(session_id)
+    last_pos = _get_last_position(session_id, state_dir)
     new_messages = 0
     final_pos = last_pos
 
@@ -102,7 +103,7 @@ async def capture_new_messages(
 
             final_pos = line_num + 1
 
-    _set_last_position(session_id, final_pos)
+    _set_last_position(session_id, final_pos, state_dir)
     return {"captured": new_messages, "last_position": final_pos}
 
 
