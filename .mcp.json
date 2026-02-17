@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "lcm": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/Users/danielpalmqvist/Documents/devel/lossless_context_management",
+        "run",
+        "python",
+        "-m",
+        "lcm.server"
+      ],
+      "env": {}
+    }
+  }
+}
